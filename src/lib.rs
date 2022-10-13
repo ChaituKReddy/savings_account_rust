@@ -7,7 +7,7 @@ impl Account {
     ///
     /// # Examples
     /// ```
-    /// use auth_service::Account;
+    /// use savings_account::Account;
     /// let account = Account::new();
     /// assert_eq!(account.get_balance(), 0);
     /// ```
@@ -64,5 +64,13 @@ mod tests {
         let mut account = Account::new();
         account.deposit(10);
         account.withdraw(11);
+    }
+
+    #[test]
+    fn it_withdraw_successfully() {
+        let mut account = Account::new();
+        account.deposit(10);
+        account.withdraw(2);
+        assert_eq!(account.get_balance(), 8, "Withdraw not successfull");
     }
 }
