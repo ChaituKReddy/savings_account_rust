@@ -1,3 +1,6 @@
+use crate::reset::return_string;
+
+mod reset;
 pub struct Account {
     balance: u128,
 }
@@ -11,8 +14,8 @@ impl Account {
     /// let account = Account::new();
     /// assert_eq!(account.get_balance(), 0);
     /// ```
-    pub fn new() -> Account {
-        Account { balance: 0 }
+    pub fn new() -> Self {
+        Self { balance: 0 }
     }
 
     pub fn get_balance(&self) -> u128 {
@@ -21,6 +24,7 @@ impl Account {
 
     pub fn deposit(&mut self, amount: u128) {
         self.balance += amount;
+        return_string();
         println!(
             "Deposited {} into the account and new balance is {}",
             amount,
@@ -41,6 +45,8 @@ impl Account {
 
 #[cfg(test)]
 mod tests {
+    use crate::reset::return_string;
+
     use super::*;
 
     #[test]
@@ -67,10 +73,26 @@ mod tests {
     }
 
     #[test]
+    #[should_panic]
+    fn it_should_panic_if_deposit_overflows() {
+        let mut account = Account::new();
+        let amount = 10;
+        let max = u128::MAX;
+        account.deposit(amount);
+        account.deposit(max);
+    }
+
+    #[test]
     fn it_withdraw_successfully() {
         let mut account = Account::new();
         account.deposit(10);
         account.withdraw(2);
         assert_eq!(account.get_balance(), 8, "Withdraw not successfull");
+    }
+
+    #[test]
+    fn it_should_return_string() {
+        let string = return_string();
+        assert_eq!("Test", string, "string mismatch");
     }
 }
