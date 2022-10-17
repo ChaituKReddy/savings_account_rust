@@ -18,10 +18,35 @@ impl Account {
         Self { balance: 0 }
     }
 
+    /// Returns balance of a given account
+    ///
+    /// # Examples
+    /// ```
+    /// use savings_account::Account;
+    /// let mut account = Account::new();
+    /// account.deposit(10);
+    /// let balance = account.get_balance();
+    /// assert_eq!(account.get_balance(), 10);
+    /// ```
     pub fn get_balance(&self) -> u128 {
         self.balance
     }
 
+    /// Should allow the user to add funds
+    ///
+    /// # Examples
+    /// ```
+    /// use savings_account::Account;
+    /// let mut account = Account::new();
+    /// let mut balance = account.get_balance();
+    /// assert_eq!(account.get_balance(), 0);
+    /// account.deposit(10);
+    /// balance = account.get_balance();
+    /// assert_eq!(account.get_balance(), 10);
+    /// account.deposit(10);
+    /// balance = account.get_balance();
+    /// assert_eq!(account.get_balance(), 20);
+    /// ```
     pub fn deposit(&mut self, amount: u128) {
         self.balance += amount;
         return_string();
@@ -32,6 +57,19 @@ impl Account {
         );
     }
 
+    /// Should allow the user to withdraw funds
+    ///
+    /// # Examples
+    /// ```
+    /// use savings_account::Account;
+    /// let mut account = Account::new();
+    /// account.deposit(10);
+    /// let mut balance = account.get_balance();
+    /// assert_eq!(account.get_balance(), 10);
+    /// account.withdraw(10);
+    /// balance = account.get_balance();
+    /// assert_eq!(account.get_balance(), 0);
+    /// ```
     pub fn withdraw(&mut self, amount: u128) {
         assert!(amount <= self.get_balance(), "Not enough balance");
         self.balance -= amount;
